@@ -15,14 +15,12 @@
 }
 
 .weight {
-  /* background-color: red; */
-  content: url(./Assets/Icons/weight.png);
+  content: url(../Icons/weight.png);
   background-size: 20px 20px;
 }
 
 .weight-animated {
-  /* background-color: red; */
-  content: url(./Assets/Icons/weight.png);
+  content: url(../Icons/weight.png);
   background-size: 20px 20px;
   animation: weighted 0.2s linear;
 }
@@ -62,18 +60,18 @@
 .path-animated {
   background-color: yellow;
   border: 1px solid yellow;
-  animation: shortestPathAnimation 0.2s linear;
+  animation: pathAnimation 0.2s linear;
 }
 
 .source {
-  content: url(./Assets/Icons/source.png);
+  content: url(../Icons/source.png);
   background-size: 19px 19px;
   background-color: yellow;
   border: 1px solid yellow;
 }
 
 .destination {
-  content: url(./Assets/Icons/destination.png);
+  content: url(../Icons/destination.png);
   background-size: 20px 20px;
   background-color: yellow;
   border: 1px solid yellow;
@@ -125,7 +123,7 @@
   }
 }
 
-@keyframes shortestPathAnimation {
+@keyframes pathAnimation {
   0% {
     transform: scale(0.3);
     background-color: rgb(248, 248, 186);
@@ -137,6 +135,5 @@
     background-color: yellow;
     border: 1px solid yellow;
     border-radius: 0%;
-    /* border-radius: 8px; */
   }
 }

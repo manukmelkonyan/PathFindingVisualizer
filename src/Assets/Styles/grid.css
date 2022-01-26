@@ -1,0 +1,9 @@
+.grid {
+  background-color: aliceblue;
+  /* padding: 20px; */
+  border: 22px solid black;
+  border-radius: 10px 10px;
+  padding: 0;
+  margin: auto;
+  box-shadow: 0 0 30px 10px rgb(208, 246, 255);
+}
