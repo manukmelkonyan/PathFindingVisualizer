@@ -1,6 +1,6 @@
 import React from "react";
 import { Cell } from "./Cell";
-import "./style.css";
+import "../Assets/Styles/style.css";
 
 export const Row = ({ i, columnCount }) => {
   return (

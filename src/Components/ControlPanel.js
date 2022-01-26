@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { searchingAlgorithms, runAlgorithm } from "./algorithms";
-import { runMazeAlgorithm } from "./mazeAlgorithms";
-import gridOptions from "./gridOptions";
-import "./style.css";
+import { searchingAlgorithms, runAlgorithm } from "../algorithms";
+import { runMazeAlgorithm } from "../mazeAlgorithms";
+import gridOptions from "../gridOptions";
+import "../Assets/Styles/style.css";
 
 export const ControlPanel = () => {
   useEffect(() => {
