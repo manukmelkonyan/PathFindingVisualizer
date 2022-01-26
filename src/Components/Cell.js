@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import gridOptions from "../gridOptions";
 import "../Assets/Styles/cell.css";
 
-export const Cell = ({ position: { i, j } }) => {
+const Cell = ({ position: { i, j } }) => {
   const [options, setOptions] = useState({
-    // class: 'unvisited',
     class: gridOptions.matrix[i][j].class,
-    // weighted: false,
     weighted: gridOptions.matrix[i][j].weighted,
     isSource: gridOptions.matrix[i][j].isSource,
     isDestination: gridOptions.matrix[i][j].isDestination,
@@ -50,7 +48,6 @@ export const Cell = ({ position: { i, j } }) => {
               weighted: false,
               class: options.class === "wall" ? "unvisited" : "wall",
             });
-            // gridOptions.matrix[i][j].class = options.class;
           } else if (gridOptions.wpressed) {
             setOptions({
               ...options,
@@ -75,8 +72,6 @@ export const Cell = ({ position: { i, j } }) => {
 
           gridOptions.matrix[i][j].update({
             ...options,
-            class: "unvisited",
-            weighted: false,
             isSource: true,
           });
         } else if (gridOptions.isDestinationDragged) {
@@ -89,8 +84,6 @@ export const Cell = ({ position: { i, j } }) => {
           gridOptions.destination = [i, j];
           gridOptions.matrix[i][j].update({
             ...options,
-            class: "unvisited",
-            weighted: false,
             isDestination: true,
           });
         } else if (gridOptions.wpressed) {
@@ -112,3 +105,5 @@ export const Cell = ({ position: { i, j } }) => {
     ></div>
   );
 };
+
+export default Cell;

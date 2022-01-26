@@ -1,8 +1,8 @@
 import React from "react";
-import { Cell } from "./Cell";
+import Cell from "./Cell";
 import "../Assets/Styles/row.css";
 
-export const Row = ({ i, columnCount }) => {
+const Row = ({ i, columnCount }) => {
   return (
     <div className="row">
       {new Array(columnCount).fill().map((_, j) => (
@@ -11,3 +11,5 @@ export const Row = ({ i, columnCount }) => {
     </div>
   );
 };
+
+export default Row;
