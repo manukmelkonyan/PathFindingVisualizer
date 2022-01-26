@@ -1,4 +1,4 @@
-import gridOptions from "./gridOptions";
+import gridOptions from "../gridOptions";
 
 const animateCell = (state, i, j, time = gridOptions.delay) => {
   return new Promise((resolve) => {

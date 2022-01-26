@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { searchingAlgorithms, runAlgorithm } from "../algorithms";
-import { runMazeAlgorithm } from "../mazeAlgorithms";
+import { searchingAlgorithms, runAlgorithm } from "../Algorithms/searchingAlgorithms";
+import { runMazeAlgorithm } from "../Algorithms/mazeAlgorithms";
 import gridOptions from "../gridOptions";
 import "../Assets/Styles/controlPanel.css";
 

@@ -1,4 +1,4 @@
-import gridOptions from "./gridOptions";
+import gridOptions from "../gridOptions";
 
 export async function runAlgorithm(name) {
   if (!(name in searchingAlgorithms)) {
