@@ -211,6 +211,13 @@ const mazeAlgorithms = {
           const wallI = (i + neighbor[0]) / 2;
           const wallJ = (j + neighbor[1]) / 2;
           if (!gridOptions.isWall(wallI, wallJ)) await animateCell("wall", wallI, wallJ);
+          if (i === wallI) {
+            wallI - 1 >= 0 && !gridOptions.isWall(wallI - 1, wallJ) && (await animateCell("wall", wallI - 1, wallJ));
+            wallI + 1 < n && !gridOptions.isWall(wallI + 1, wallJ) && (await animateCell("wall", wallI + 1, wallJ));
+          } else if (j === wallJ) {
+            wallJ - 1 >= 0 && !gridOptions.isWall(wallI, wallJ - 1) && (await animateCell("wall", wallI, wallJ - 1));
+            wallJ + 1 < m && !gridOptions.isWall(wallI, wallJ + 1) && (await animateCell("wall", wallI, wallJ + 1));
+          }
         }
       }
       for (let neighbor of neighbors) {
@@ -238,18 +245,18 @@ const mazeAlgorithms = {
     await dfs([0, 0]);
 
     // adding walls to unreachable cells (which are considered to be walls)
-    for (let i = 1; i < n; i += 2) {
-      for (let j = 1; j < m; j += 2) {
-        if (
-          gridOptions.isUnvisited(i, j) &&
-          getHoleNeighbors(i, j).every(([row, col]) => {
-            return gridOptions.isWall(row, col);
-          })
-        ) {
-          await animateCell("wall", i, j);
-        }
-      }
-    }
+    // for (let i = 1; i < n; i += 2) {
+    //   for (let j = 1; j < m; j += 2) {
+    //     if (
+    //       gridOptions.isUnvisited(i, j) &&
+    //       getHoleNeighbors(i, j).every(([row, col]) => {
+    //         return gridOptions.isWall(row, col);
+    //       })
+    //     ) {
+    //       await animateCell("wall", i, j);
+    //     }
+    //   }
+    // }
   },
 
   binaryTree: async () => {
