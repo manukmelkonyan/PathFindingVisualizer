@@ -102,6 +102,7 @@ label {
 
 .inline-block label {
   min-width: 140px;
+  white-space: nowrap;
   margin-right: 15px;
 }
 
