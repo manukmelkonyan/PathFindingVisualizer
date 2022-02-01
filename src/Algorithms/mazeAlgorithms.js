@@ -287,7 +287,11 @@ const mazeAlgorithms = {
     const [n, m] = gridOptions.getSize();
     const visited = new Set();
     let unvisited = new Set();
-    unvisited.add("14,20");
+    const middleRow = Math.floor(n / 2) - (Math.floor(n / 2) % 2);
+    const middleCol = Math.floor(m / 2) - (Math.floor(m / 2) % 2);
+    console.log({ middleRow, middleCol });
+    unvisited.add(`${middleRow},${middleCol}`);
+    // throw new Error("xxx");
 
     const randInt = (min, max) => {
       return Math.floor(Math.random() * (max - min + 1) + min);
