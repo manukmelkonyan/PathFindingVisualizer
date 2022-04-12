@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');
+
 #controlPanel {
   display: flex;
   justify-content: center;
@@ -35,6 +37,7 @@ input,
 label {
   margin: 5px 5px 0 5px;
   font-family: Oswald;
+  /* font-family: 'Merriweather', serif; */
 }
 
 .input-box {
@@ -42,7 +45,7 @@ label {
   height: 25px;
 }
 
-.input-box input[type="range"] {
+.input-box input[type='range'] {
   width: 110px;
 }
 

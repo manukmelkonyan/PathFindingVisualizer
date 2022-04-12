@@ -1,7 +1,7 @@
-import React from "react";
-import Row from "./Row";
-import gridOptions from "../gridOptions";
-import "../Assets/Styles/grid.css";
+import React from 'react';
+import Row from './Row';
+import gridOptions from '../gridOptions';
+import '../Assets/Styles/grid.css';
 
 const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => {
   const rows = new Array(rowCount).fill().map((_, i) => <Row key={i.toString()} i={i} columnCount={columnCount} />);
@@ -10,7 +10,7 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
   for (let i = 0; i < rowCount; ++i) {
     gridOptions.matrix[i] = new Array(columnCount);
     for (let j = 0; j < columnCount; ++j) {
-      gridOptions.matrix[i][j] = { class: "unvisited", weighted: false };
+      gridOptions.matrix[i][j] = { class: 'unvisited', weighted: false };
     }
   }
   const [start_i, start_j] = startNodePosition;
@@ -20,6 +20,52 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
   gridOptions.source = [start_i, start_j];
   gridOptions.destination = [end_i, end_j];
 
+  const handleMouseUp = async (e) => {
+    if (e.button !== 0) return;
+    if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
+      gridOptions.clearPath();
+      if (gridOptions.isSourceDragged) {
+        const [i, j] = gridOptions.source;
+        gridOptions.matrix[i][j].update({
+          class: 'unvisited',
+          weighted: false,
+          isSource: true,
+          isDestination: false,
+        });
+        // console.log(gridOptions.matrix[i][j]);
+        // console.log(document.getElementById(i + ',' + j));
+      } else if (gridOptions.isDestinationDragged) {
+        const [i, j] = gridOptions.destination;
+        gridOptions.matrix[i][j].update({
+          class: 'unvisited',
+          weighted: false,
+          isSource: false,
+          isDestination: true,
+        });
+      }
+      if (gridOptions.instantAnimationOn) {
+        await gridOptions.chozenAlgorithmCallback();
+      }
+    }
+    gridOptions.isSourceDragged = false;
+    gridOptions.isDestinationDragged = false;
+    gridOptions.clicked = false;
+    gridOptions.wpressed = false;
+  };
+
+  const handleMouseLeave = async () => {
+    if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
+      gridOptions.clearPath();
+      if (gridOptions.instantAnimationOn) {
+        await gridOptions.chozenAlgorithmCallback();
+      }
+    }
+    gridOptions.clicked = false;
+    gridOptions.wpressed = false;
+    gridOptions.isSourceDragged = false;
+    gridOptions.isDestinationDragged = false;
+  };
+
   return (
     <>
       <div
@@ -27,50 +73,10 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
           e.preventDefault();
         }}
         className="grid"
-        onMouseUp={async (e) => {
-          if (e.button !== 0) return;
-          if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
-            gridOptions.clearPath();
-            if (gridOptions.isSourceDragged) {
-              const [i, j] = gridOptions.source;
-              gridOptions.matrix[i][j].update({
-                class: "unvisited",
-                weighted: false,
-                isSource: true,
-                isDestination: false,
-              });
-              // console.log(gridOptions.matrix[i][j]);
-              // console.log(document.getElementById(i + ',' + j));
-            } else if (gridOptions.isDestinationDragged) {
-              const [i, j] = gridOptions.destination;
-              gridOptions.matrix[i][j].update({
-                class: "unvisited",
-                weighted: false,
-                isSource: false,
-                isDestination: true,
-              });
-            }
-            if (gridOptions.instantAnimationOn) {
-              await gridOptions.chozenAlgorithmCallback();
-            }
-          }
-          gridOptions.isSourceDragged = false;
-          gridOptions.isDestinationDragged = false;
-          gridOptions.clicked = false;
-          gridOptions.wpressed = false;
-        }}
-        onMouseLeave={async () => {
-          if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
-            gridOptions.clearPath();
-            if (gridOptions.instantAnimationOn) {
-              await gridOptions.chozenAlgorithmCallback();
-            }
-          }
-          gridOptions.clicked = false;
-          gridOptions.wpressed = false;
-          gridOptions.isSourceDragged = false;
-          gridOptions.isDestinationDragged = false;
-        }}
+        onMouseUp={handleMouseUp}
+        onTouchEnd={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        // ontouc
       >
         {rows}
       </div>
