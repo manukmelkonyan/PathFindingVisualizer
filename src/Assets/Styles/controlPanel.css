@@ -1,54 +1,113 @@
 #controlPanel {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  background-color: rgb(24, 23, 94);
-  border-radius: 10px 10px;
   margin: auto;
-  margin-top: 10px;
+  position: absolute;
+  left: 15px;
+  top: 20px;
+  z-index: 1;
 }
 
-#controlPanel button,
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(24, 23, 94);
+  border-radius: 10px 10px;
+  margin: 0 5px;
+  padding: 0 15px 5px 5px;
+  max-height: 29px;
+  max-width: 220px;
+  overflow: hidden;
+  z-index: 2;
+  transition: all 0.3s;
+}
+
+.panel:hover {
+  max-height: 250px;
+  max-width: 500px;
+}
+
+.panel button,
 input,
 label {
-  margin: 10px 5px 10px 5px;
-  color: orange;
+  margin: 5px 5px 0 5px;
   font-family: Oswald;
+}
+
+.input-box {
+  margin: 5px 5px 0 5px;
+  height: 25px;
+}
+
+.input-box input[type="range"] {
+  width: 110px;
 }
 
 @font-face {
   font-family: Oswald;
   src: url(../Fonts/MochiyPopPOne-Regular.ttf);
 }
-#controlPanel button {
-  background-color: transparent;
+.panel button {
+  background-color: rgb(24, 23, 94);
   border: 1px solid white;
-  border-radius: 5px 5px;
+  border-radius: 10px 10px;
   color: white;
-  height: 40px;
+  min-height: 40px;
+  transition: all 0.2s;
+
+  min-width: 60px;
+  width: 100%;
 }
 
-#controlPanel button:enabled:hover {
-  background-color: rgb(203, 209, 192);
+.panel button:enabled:hover {
+  background-color: white;
+  border-color: rgb(24, 23, 94);
+  color: rgb(24, 23, 94);
+  cursor: pointer;
 }
 
-#controlPanel button:enabled:active {
-  background-color: rgb(123, 128, 116);
+.panel button:enabled:active {
+  background-color: rgba(64, 63, 126, 0.356);
+  border-color: rgb(107, 106, 206);
 }
 
-#controlPanel button:disabled {
-  background-color: rgb(255, 255, 255);
+.panel button:disabled {
+  border: 1px solid rgb(24, 23, 94);
+  background-color: rgb(24, 23, 94);
+  color: #666666;
+  cursor: no-drop;
 }
 
-.verticalLine {
-  border-left: 3px solid orange;
-  border-radius: 4px 4px;
+.panel-title {
+  width: calc(100% - 15px);
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgb(24, 23, 94);
+  transition: all 1.3s;
+}
+
+.inline-block * {
+  margin: 0 2px;
+  padding: 0;
+}
+
+.inline-block img {
   height: 30px;
-  margin: 10px;
+  margin: 0 4px;
+  width: auto;
 }
 
-.panel {
+.inline-block label {
+  min-width: 140px;
+  margin-right: 15px;
+}
+
+.inline-block {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: flex-start;
+  margin-top: 10px;
 }
