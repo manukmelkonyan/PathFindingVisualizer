@@ -2,10 +2,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgb(252, 217, 165);
+  background-color: rgb(24, 23, 94);
   border-radius: 10px 10px;
-  box-shadow: 0 0 5px 6px rgb(133, 113, 113);
-  /* align-items: center; */
   margin: auto;
   margin-top: 10px;
 }
@@ -23,15 +21,23 @@ label {
   src: url(../Fonts/MochiyPopPOne-Regular.ttf);
 }
 #controlPanel button {
-  background-color: white;
-  border: 0px;
+  background-color: transparent;
+  border: 1px solid white;
   border-radius: 5px 5px;
-  /* color: navy; */
+  color: white;
   height: 40px;
 }
 
-#controlPanel button:hover {
-  background-color: rgb(64, 181, 228);
+#controlPanel button:enabled:hover {
+  background-color: rgb(203, 209, 192);
+}
+
+#controlPanel button:enabled:active {
+  background-color: rgb(123, 128, 116);
+}
+
+#controlPanel button:disabled {
+  background-color: rgb(255, 255, 255);
 }
 
 .verticalLine {
