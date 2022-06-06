@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap");
+
 #controlPanel {
   display: flex;
   justify-content: center;
@@ -34,7 +36,9 @@
 input,
 label {
   margin: 5px 5px 0 5px;
-  font-family: Oswald;
+  font-family: "ZCOOL QingKe HuangYou", cursive;
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .input-box {
@@ -46,10 +50,10 @@ label {
   width: 110px;
 }
 
-@font-face {
+/* @font-face {
   font-family: Oswald;
   src: url(../Fonts/MochiyPopPOne-Regular.ttf);
-}
+} */
 .panel button {
   background-color: rgb(24, 23, 94);
   border: 1px solid white;
@@ -84,7 +88,7 @@ label {
 .panel-title {
   width: calc(100% - 15px);
   text-align: center;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
   border-bottom: 1px solid rgb(24, 23, 94);
   transition: all 1.3s;
 }
