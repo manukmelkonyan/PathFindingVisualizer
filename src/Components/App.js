@@ -1,8 +1,7 @@
 import React from "react";
-import "./style.css";
 import { Grid } from "./Grid";
 import { ControlPanel } from "./ControlPanel";
-// import gridOptions from './gridOptions';
+import "../Assets/Styles/style.css";
 
 export default function App() {
   return (

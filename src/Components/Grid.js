@@ -1,7 +1,7 @@
 import React from "react";
 import { Row } from "./Row";
-import gridOptions from "./gridOptions";
-import "./style.css";
+import gridOptions from "../gridOptions";
+import "../Assets/Styles/style.css";
 
 export const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => {
   const rows = new Array(rowCount).fill().map((_, i) => <Row key={i.toString()} i={i} columnCount={columnCount} />);

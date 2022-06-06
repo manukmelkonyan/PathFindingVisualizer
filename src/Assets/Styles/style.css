@@ -19,13 +19,13 @@ body {
 
 .weight {
   /* background-color: red; */
-  content: url(./Assets/Icons/weight.png);
+  content: url(../Icons/weight.png);
   background-size: 20px 20px;
 }
 
 .weight-animated {
   /* background-color: red; */
-  content: url(./Assets/Icons/weight.png);
+  content: url(../Icons/weight.png);
   background-size: 20px 20px;
   animation: weighted 0.2s linear;
 }
@@ -69,14 +69,14 @@ body {
 }
 
 .source {
-  content: url(./Assets/Icons/source.png);
+  content: url(../Icons/source.png);
   background-size: 19px 19px;
   background-color: yellow;
   border: 1px solid yellow;
 }
 
 .destination {
-  content: url(./Assets/Icons/destination.png);
+  content: url(../Icons/destination.png);
   background-size: 20px 20px;
   background-color: yellow;
   border: 1px solid yellow;
@@ -186,7 +186,7 @@ label {
 
 @font-face {
   font-family: Oswald;
-  src: url(./Assets/Fonts/MochiyPopPOne-Regular.ttf);
+  src: url(../Fonts/MochiyPopPOne-Regular.ttf);
 }
 #controlPanel button {
   background-color: white;
