@@ -158,19 +158,19 @@ const ControlPanel = () => {
       </div>
       <div className="panel">
         <label className="panel-title">Icons</label>
-        <div class="inline-block">
+        <div className="inline-block">
           <img src={require("../Assets/Icons/source.png")} alt="destination.png" />
           <label>Source node</label>
           <img src={require("../Assets/Icons/destination.png")} alt="source.png" />
           <label>Destination node</label>
         </div>
-        <div class="inline-block">
+        <div className="inline-block">
           <img src={require("../Assets/Icons/wall.png")} alt="wall.png" />
           <label>Wall node</label>
           <img src={require("../Assets/Icons/weight.png")} alt="source.png" />
           <label>Weighted node</label>
         </div>
-        <div class="inline-block">
+        <div className="inline-block">
           <img src={require("../Assets/Icons/unvisited.png")} alt="unvisited.png" />
           <label>Unvisited node</label>
           <img src={require("../Assets/Icons/visited.png")} alt="visited.png" />
