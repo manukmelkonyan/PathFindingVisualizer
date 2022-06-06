@@ -4,6 +4,7 @@ export async function runAlgorithm(name) {
   if (!(name in searchingAlgorithms)) {
     throw new ReferenceError(`Algorithm with name '${name}' is not defined`);
   }
+  gridOptions.chozenAlgorithmCallback = searchingAlgorithms[name];
   gridOptions.disableUserInteraction();
   gridOptions.animationLaunched = true;
   await searchingAlgorithms[name]();
@@ -11,7 +12,14 @@ export async function runAlgorithm(name) {
   gridOptions.enableUserInteraction();
 }
 
-const animateCell = (state, i, j, time = gridOptions.delay) => {
+export const searchingAlgorithmsFullNames = {
+  bfs: "Breadth First Search",
+  dfs: "Depth First Search",
+  dijkstra: "Dijkstra's Algorithm",
+  astar: "A* Algorithm",
+};
+
+export const animateCell = (state, i, j, time = gridOptions.delay) => {
   return new Promise((resolve) => {
     if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
       // when dragging either source or destination,update current cell immediately WITHOUT animation

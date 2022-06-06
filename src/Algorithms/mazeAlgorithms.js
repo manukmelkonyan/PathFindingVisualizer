@@ -22,12 +22,21 @@ export async function runMazeAlgorithm(name) {
   if (!(name in mazeAlgorithms)) {
     throw new ReferenceError(`Algorithm with name '${name}' is not defined`);
   }
+  gridOptions.clearBoard();
   gridOptions.disableUserInteraction();
   gridOptions.animationLaunched = true;
   await mazeAlgorithms[name]();
   gridOptions.animationLaunched = false;
   gridOptions.enableUserInteraction();
 }
+
+export const mazeAlgorithmsFullNames = {
+  recursiveDivision: "Recursive Division",
+  randomizedDFS: "Randomized DFS",
+  binaryTree: "Binary Tree",
+  primsRandomized: "Prim's randomized",
+  kruskalsRandomized: "Kruskal's randomized",
+};
 
 const mazeAlgorithms = {
   recursiveDivision: async () => {
@@ -283,15 +292,13 @@ const mazeAlgorithms = {
       }
     }
   },
-  primsRandomizedAlgorithm: async () => {
+  primsRandomized: async () => {
     const [n, m] = gridOptions.getSize();
     const visited = new Set();
-    let unvisited = new Set();
+    const unvisited = new Set();
     const middleRow = Math.floor(n / 2) - (Math.floor(n / 2) % 2);
     const middleCol = Math.floor(m / 2) - (Math.floor(m / 2) % 2);
-    console.log({ middleRow, middleCol });
     unvisited.add(`${middleRow},${middleCol}`);
-    // throw new Error("xxx");
 
     const randInt = (min, max) => {
       return Math.floor(Math.random() * (max - min + 1) + min);
@@ -358,5 +365,85 @@ const mazeAlgorithms = {
         unvisited.add(i + "," + j);
       });
     }
+  },
+  kruskalsRandomized: async () => {
+    const [n, m] = gridOptions.getSize();
+    const visited = new Set();
+    const unvisited = new Set();
+    for (let i = 0; i < n; i += 2) {
+      for (let j = 0; j < m; j += 2) {
+        unvisited.add(i + "," + j);
+      }
+    }
+
+    const randInt = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+
+    const isVisited = (i, j) => visited.has(i + "," + j);
+
+    const isUnVisited = (i, j) => unvisited.has(i + "," + j);
+
+    const getUnVisitedNeigbors = (i, j) => {
+      const neighbors = [
+        [i, j + 2],
+        [i + 2, j],
+        [i, j - 2],
+        [i - 2, j],
+      ];
+      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m);
+    };
+
+    const getVisitedNeigbors = (i, j) => {
+      const neighbors = [
+        [i, j + 2],
+        [i + 2, j],
+        [i, j - 2],
+        [i - 2, j],
+      ];
+      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m && isVisited(r, c));
+    };
+
+    const getWallNeighbors = (i, j) => {
+      const neighbors = [
+        [i, j + 1],
+        [i + 1, j],
+        [i, j - 1],
+        [i - 1, j],
+        [i + 1, j + 1],
+        [i + 1, j - 1],
+        [i - 1, j - 1],
+        [i - 1, j + 1],
+      ];
+      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m && !isVisited(r, c));
+    };
+
+    const extractRandomVertexFromUnvisitedSet = () => {
+      const randIndex = randInt(0, unvisited.size - 1);
+      const randVertex = Array.from(unvisited.keys())[randIndex];
+      unvisited.delete(randVertex);
+      return randVertex;
+    };
+    while (unvisited.size > 0) {
+      const vertex = extractRandomVertexFromUnvisitedSet();
+      const [vi, vj] = vertex.split(",").map((e) => Number(e));
+      animateCell("unvisited", vi, vj, 0);
+      visited.add(vi + "," + vj);
+
+      const unVisitedNeigbors = getUnVisitedNeigbors(vi, vj);
+      if (unVisitedNeigbors.length > 0) {
+        const randIndex = randInt(0, unVisitedNeigbors.length - 1);
+        const [randi, randj] = unVisitedNeigbors[randIndex];
+        const [midi, midj] = [(randi + vi) / 2, (randj + vj) / 2];
+        animateCell("unvisited", randi, randj, 0);
+        animateCell("unvisited", midi, midj, 0);
+        visited.add(randi + "," + randj);
+        visited.add(midi + "," + midj);
+      }
+      for (const [i, j] of getWallNeighbors(vi, vj)) {
+        if (!gridOptions.isWall(i, j)) await animateCell("wall", i, j);
+      }
+    }
+    console.log(visited);
   },
 };

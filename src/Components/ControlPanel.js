@@ -1,7 +1,16 @@
 import React, { useEffect } from "react";
-import { searchingAlgorithms, runAlgorithm } from "../Algorithms/searchingAlgorithms";
-import { runMazeAlgorithm } from "../Algorithms/mazeAlgorithms";
+import SearchingAlgorithmButton from "./SearchingAlgorithmButton";
+import MazeAlgorithmButton from "./MazeAlgorithmButton";
+
 import gridOptions from "../gridOptions";
+
+import sourceIcon from "../Assets/Icons/source.png";
+import destinationIcon from "../Assets/Icons/destination.png";
+import wallIcon from "../Assets/Icons/wall.png";
+import weightIcon from "../Assets/Icons/weight.png";
+import unvisitedIcon from "../Assets/Icons/unvisited.png";
+import visitedIcon from "../Assets/Icons/visited.png";
+import pathIcon from "../Assets/Icons/path.png";
 import "../Assets/Styles/controlPanel.css";
 
 const ControlPanel = () => {
@@ -11,99 +20,40 @@ const ControlPanel = () => {
     document.getElementById("instantAnimationCheckbox").checked = true;
     gridOptions.delay = 0;
 
-    document.body.addEventListener("keydown", (e) => {
+    const handleWDown = (e) => {
       if (e.key === "w") {
         gridOptions.wpressed = true;
-        gridOptions.wallToggleON = false;
       }
-    });
-    document.body.addEventListener("keyup", (e) => {
+    };
+    const handleWUp = (e) => {
       if (e.key === "w") {
         gridOptions.wpressed = false;
       }
-    });
+    };
+    window.addEventListener("keydown", handleWDown);
+    window.addEventListener("keyup", handleWUp);
+
+    return function cleanUp() {
+      window.removeEventListener(handleWDown);
+      window.removeEventListener(handleWUp);
+    };
   });
   return (
     <div id="controlPanel">
       <div className="panel">
         <label className="panel-title">Searching Algorithms</label>
-        <button
-          id="bfsBtn"
-          onClick={async () => {
-            gridOptions.chozenAlgorithmCallback = searchingAlgorithms.bfs;
-            await runAlgorithm("bfs");
-          }}
-        >
-          Breadth First Search
-        </button>
-
-        <button
-          id="dfsBtn"
-          onClick={async () => {
-            gridOptions.chozenAlgorithmCallback = searchingAlgorithms.dfs;
-            await runAlgorithm("dfs");
-          }}
-        >
-          Depth First Search
-        </button>
-        <button
-          id="dijkstraBtn"
-          onClick={async () => {
-            gridOptions.chozenAlgorithmCallback = searchingAlgorithms.dijkstra;
-            await runAlgorithm("dijkstra");
-          }}
-        >
-          Dijkstra's Algorithm
-        </button>
-        <button
-          id="astarBtn"
-          onClick={async () => {
-            gridOptions.chozenAlgorithmCallback = searchingAlgorithms.astar;
-            await runAlgorithm("astar");
-          }}
-        >
-          A* Algorithm
-        </button>
+        <SearchingAlgorithmButton algorithmName={"bfs"} />
+        <SearchingAlgorithmButton algorithmName={"dfs"} />
+        <SearchingAlgorithmButton algorithmName={"dijkstra"} />
+        <SearchingAlgorithmButton algorithmName={"astar"} />
       </div>
       <div className="panel">
         <label className="panel-title">Maze Algorithms</label>
-        <button
-          id="recursiveDivisionBtn"
-          onClick={async () => {
-            gridOptions.clearBoard();
-            await runMazeAlgorithm("recursiveDivision");
-          }}
-        >
-          Recursive Division
-        </button>
-
-        <button
-          id="randomizedDFSBtn"
-          onClick={async () => {
-            gridOptions.clearBoard();
-            await runMazeAlgorithm("randomizedDFS");
-          }}
-        >
-          Randomized DFS
-        </button>
-        <button
-          id="binaryTreeBtn"
-          onClick={async () => {
-            gridOptions.clearBoard();
-            await runMazeAlgorithm("binaryTree");
-          }}
-        >
-          Binary Tree
-        </button>
-        <button
-          id="primsRandomizedAlgorithmBtn"
-          onClick={async () => {
-            gridOptions.clearBoard();
-            await runMazeAlgorithm("primsRandomizedAlgorithm");
-          }}
-        >
-          Prim's randomized
-        </button>
+        <MazeAlgorithmButton algorithmName={"recursiveDivision"} />
+        <MazeAlgorithmButton algorithmName={"randomizedDFS"} />
+        <MazeAlgorithmButton algorithmName={"binaryTree"} />
+        <MazeAlgorithmButton algorithmName={"primsRandomized"} />
+        <MazeAlgorithmButton algorithmName={"kruskalsRandomized"} />
       </div>
       <div className="panel">
         <label className="panel-title">Grid options</label>
@@ -159,25 +109,25 @@ const ControlPanel = () => {
       <div className="panel">
         <label className="panel-title">Icons</label>
         <div className="inline-block">
-          <img src={require("../Assets/Icons/source.png")} alt="destination.png" />
+          <img src={sourceIcon} alt="destination.png" />
           <label>Source node</label>
-          <img src={require("../Assets/Icons/destination.png")} alt="source.png" />
+          <img src={destinationIcon} alt="source.png" />
           <label>Destination node</label>
         </div>
         <div className="inline-block">
-          <img src={require("../Assets/Icons/wall.png")} alt="wall.png" />
+          <img src={wallIcon} alt="wall.png" />
           <label>Wall node</label>
-          <img src={require("../Assets/Icons/weight.png")} alt="source.png" />
+          <img src={weightIcon} alt="source.png" />
           <label>Weighted node</label>
         </div>
         <div className="inline-block">
-          <img src={require("../Assets/Icons/unvisited.png")} alt="unvisited.png" />
+          <img src={unvisitedIcon} alt="unvisited.png" />
           <label>Unvisited node</label>
-          <img src={require("../Assets/Icons/visited.png")} alt="visited.png" />
+          <img src={visitedIcon} alt="visited.png" />
           <label>Visited node</label>
         </div>
         <div className="inline-block">
-          <img src={require("../Assets/Icons/path.png")} alt="path.png" />
+          <img src={pathIcon} alt="path.png" />
           <label>Path node</label>
         </div>
       </div>

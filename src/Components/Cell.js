@@ -25,6 +25,80 @@ const Cell = ({ position: { i, j } }) => {
     classList += `${options.class}-animated ` + (options.weighted ? "weight-animated " : "");
   }
 
+  const handleMouseDown = (e) => {
+    if (e.button !== 0 || gridOptions.animationLaunched) return;
+
+    gridOptions.clicked = true;
+
+    if (gridOptions.matrix[i][j].isSource) {
+      gridOptions.isSourceDragged = true;
+    } else if (gridOptions.matrix[i][j].isDestination) {
+      gridOptions.isDestinationDragged = true;
+    } else {
+      if (!gridOptions.wpressed) {
+        setOptions({
+          ...options,
+          weighted: false,
+          class: options.class === "wall" ? "unvisited" : "wall",
+        });
+      } else if (gridOptions.wpressed) {
+        setOptions({
+          ...options,
+          class: "unvisited",
+          weighted: !options.weighted,
+        });
+      }
+    }
+  };
+
+  const handleMouseOver = async () => {
+    if (!gridOptions.clicked || gridOptions.matrix[i][j].isSource || gridOptions.matrix[i][j].isDestination) return;
+
+    if (gridOptions.isSourceDragged) {
+      gridOptions.clearPath();
+      const [prevSource_i, prevSource_j] = gridOptions.source;
+      const prevSourceOptions = gridOptions.matrix[prevSource_i][prevSource_j];
+
+      gridOptions.matrix[prevSource_i][prevSource_j].update({
+        ...prevSourceOptions,
+        isSource: false,
+      });
+      gridOptions.source = [i, j];
+
+      gridOptions.matrix[i][j].update({
+        ...options,
+        isSource: true,
+      });
+    } else if (gridOptions.isDestinationDragged) {
+      gridOptions.clearPath();
+      const [prevDestination_i, prevDestination_j] = gridOptions.destination;
+      const prevDestinationOptions = gridOptions.matrix[prevDestination_i][prevDestination_j];
+      gridOptions.matrix[prevDestination_i][prevDestination_j].update({
+        ...prevDestinationOptions,
+        isDestination: false,
+      });
+      gridOptions.destination = [i, j];
+      gridOptions.matrix[i][j].update({
+        ...options,
+        isDestination: true,
+      });
+    } else if (gridOptions.wpressed) {
+      // drawing a weighted node
+      setOptions({
+        ...options,
+        class: "unvisited",
+        weighted: !options.weighted,
+      });
+    } else {
+      // drawing a wall
+      setOptions({
+        ...options,
+        weighted: false,
+        class: options.class === "wall" ? "unvisited" : "wall",
+      });
+    }
+  };
+
   return (
     <div
       id={i + "," + j}
@@ -32,77 +106,9 @@ const Cell = ({ position: { i, j } }) => {
         e.preventDefault();
       }}
       className={classList}
-      onMouseDown={(e) => {
-        if (e.button !== 0 || gridOptions.animationLaunched) return;
-
-        gridOptions.clicked = true;
-
-        if (gridOptions.matrix[i][j].isSource) {
-          gridOptions.isSourceDragged = true;
-        } else if (gridOptions.matrix[i][j].isDestination) {
-          gridOptions.isDestinationDragged = true;
-        } else {
-          if (!gridOptions.wpressed) {
-            setOptions({
-              ...options,
-              weighted: false,
-              class: options.class === "wall" ? "unvisited" : "wall",
-            });
-          } else if (gridOptions.wpressed) {
-            setOptions({
-              ...options,
-              class: "unvisited",
-              weighted: !options.weighted,
-            });
-          }
-        }
-      }}
-      onMouseOver={async () => {
-        if (!gridOptions.clicked || gridOptions.matrix[i][j].isSource || gridOptions.matrix[i][j].isDestination) return;
-
-        if (gridOptions.isSourceDragged) {
-          const [prevSource_i, prevSource_j] = gridOptions.source;
-          const prevSourceOptions = gridOptions.matrix[prevSource_i][prevSource_j];
-
-          gridOptions.matrix[prevSource_i][prevSource_j].update({
-            ...prevSourceOptions,
-            isSource: false,
-          });
-          gridOptions.source = [i, j];
-
-          gridOptions.matrix[i][j].update({
-            ...options,
-            isSource: true,
-          });
-        } else if (gridOptions.isDestinationDragged) {
-          const [prevDestination_i, prevDestination_j] = gridOptions.destination;
-          const prevDestinationOptions = gridOptions.matrix[prevDestination_i][prevDestination_j];
-          gridOptions.matrix[prevDestination_i][prevDestination_j].update({
-            ...prevDestinationOptions,
-            isDestination: false,
-          });
-          gridOptions.destination = [i, j];
-          gridOptions.matrix[i][j].update({
-            ...options,
-            isDestination: true,
-          });
-        } else if (gridOptions.wpressed) {
-          // drawing a weighted node
-          setOptions({
-            ...options,
-            class: "unvisited",
-            weighted: !options.weighted,
-          });
-        } else {
-          // drawing a wall
-          setOptions({
-            ...options,
-            weighted: false,
-            class: options.class === "wall" ? "unvisited" : "wall",
-          });
-        }
-      }}
-    ></div>
+      onMouseDown={handleMouseDown}
+      onMouseOver={handleMouseOver}
+    />
   );
 };
 
