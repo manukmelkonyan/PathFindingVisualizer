@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import gridOptions from "../gridOptions";
-import "../Assets/Styles/style.css";
+import "../Assets/Styles/cell.css";
 
 export const Cell = ({ position: { i, j } }) => {
   const [options, setOptions] = useState({

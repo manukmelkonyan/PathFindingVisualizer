@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { searchingAlgorithms, runAlgorithm } from "../algorithms";
 import { runMazeAlgorithm } from "../mazeAlgorithms";
 import gridOptions from "../gridOptions";
-import "../Assets/Styles/style.css";
+import "../Assets/Styles/controlPanel.css";
 
 export const ControlPanel = () => {
   useEffect(() => {

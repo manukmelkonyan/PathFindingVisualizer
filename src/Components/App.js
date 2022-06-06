@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "./Grid";
 import { ControlPanel } from "./ControlPanel";
-import "../Assets/Styles/style.css";
+import "../Assets/Styles/app.css";
 
 export default function App() {
   return (

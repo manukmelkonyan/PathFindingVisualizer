@@ -1,5 +1,5 @@
-.row {
-  display: flex;
+body {
+  background-color: rgb(118, 132, 153);
 }
 
 .flex-box {

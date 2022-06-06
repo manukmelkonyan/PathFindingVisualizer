@@ -1,0 +1,48 @@
+#controlPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(252, 217, 165);
+  border-radius: 10px 10px;
+  box-shadow: 0 0 5px 6px rgb(133, 113, 113);
+  /* align-items: center; */
+  margin: auto;
+  margin-top: 10px;
+}
+
+#controlPanel button,
+input,
+label {
+  margin: 10px 5px 10px 5px;
+  color: orange;
+  font-family: Oswald;
+}
+
+@font-face {
+  font-family: Oswald;
+  src: url(../Fonts/MochiyPopPOne-Regular.ttf);
+}
+#controlPanel button {
+  background-color: white;
+  border: 0px;
+  border-radius: 5px 5px;
+  /* color: navy; */
+  height: 40px;
+}
+
+#controlPanel button:hover {
+  background-color: rgb(64, 181, 228);
+}
+
+.verticalLine {
+  border-left: 3px solid orange;
+  border-radius: 4px 4px;
+  height: 30px;
+  margin: 10px;
+}
+
+.panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
