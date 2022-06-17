@@ -17,7 +17,7 @@ const ControlPanel = () => {
   useEffect(() => {
     document.getElementById("speedInput").value = 200;
     document.getElementById("isAnimatedCheckBox").checked = true;
-    document.getElementById("instantAnimationCheckbox").checked = true;
+    document.getElementById("anmationOnDrop").checked = true;
     gridOptions.delay = 0;
 
     const handleWDown = (e) => {
@@ -96,12 +96,12 @@ const ControlPanel = () => {
           />
         </div>
         <div className="input-box">
-          <label htmlFor="instantAnimationCheckbox">Insant Animation:</label>
+          <label htmlFor="anmationOnDrop">Animation on drop:</label>
           <input
             onChange={() => {
-              gridOptions.instantAnimationOn = !gridOptions.instantAnimationOn;
+              gridOptions.animationOnDrop = !gridOptions.animationOnDrop;
             }}
-            id="instantAnimationCheckbox"
+            id="anmationOnDrop"
             type="checkbox"
           />
         </div>
