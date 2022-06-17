@@ -368,82 +368,104 @@ const mazeAlgorithms = {
   },
   kruskalsRandomized: async () => {
     const [n, m] = gridOptions.getSize();
-    const visited = new Set();
-    const unvisited = new Set();
+
+    const isValidVertex = (i, j) => i >= 0 && i < n && j >= 0 && j < m;
+
+    const getAllPossibleNeighbors = (i, j) => {
+      const neighbors = [
+        [i, j + 2],
+        [i + 2, j],
+        [i, j - 2],
+        [i - 2, j],
+      ];
+      return neighbors.filter(([x, y]) => isValidVertex(x, y));
+    };
+    const visitedVertices = new Set();
+    const unvisitedEdges = new Set();
     for (let i = 0; i < n; i += 2) {
       for (let j = 0; j < m; j += 2) {
-        unvisited.add(i + "," + j);
+        const possibleNeigbors = getAllPossibleNeighbors(i, j);
+        for (let [x, y] of possibleNeigbors) {
+          const edge = `${Math.min(i, x)},${Math.min(j, y)}-${Math.max(i, x)},${Math.max(j, y)}`; // sorted
+          unvisitedEdges.add(edge);
+        }
       }
     }
-
     const randInt = (min, max) => {
       return Math.floor(Math.random() * (max - min + 1) + min);
     };
 
-    const isVisited = (i, j) => visited.has(i + "," + j);
-
-    const isUnVisited = (i, j) => unvisited.has(i + "," + j);
-
-    const getUnVisitedNeigbors = (i, j) => {
-      const neighbors = [
-        [i, j + 2],
-        [i + 2, j],
-        [i, j - 2],
-        [i - 2, j],
-      ];
-      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m);
-    };
-
-    const getVisitedNeigbors = (i, j) => {
-      const neighbors = [
-        [i, j + 2],
-        [i + 2, j],
-        [i, j - 2],
-        [i - 2, j],
-      ];
-      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m && isVisited(r, c));
-    };
-
-    const getWallNeighbors = (i, j) => {
-      const neighbors = [
-        [i, j + 1],
-        [i + 1, j],
-        [i, j - 1],
-        [i - 1, j],
-        [i + 1, j + 1],
-        [i + 1, j - 1],
-        [i - 1, j - 1],
-        [i - 1, j + 1],
-      ];
-      return neighbors.filter(([r, c]) => r >= 0 && c >= 0 && r < n && c < m && !isVisited(r, c));
-    };
-
-    const extractRandomVertexFromUnvisitedSet = () => {
-      const randIndex = randInt(0, unvisited.size - 1);
-      const randVertex = Array.from(unvisited.keys())[randIndex];
-      unvisited.delete(randVertex);
+    const extractRandomEdgeFromUnvisitedEdgesSet = () => {
+      const randIndex = randInt(0, unvisitedEdges.size - 1);
+      const randVertex = Array.from(unvisitedEdges.keys())[randIndex];
+      unvisitedEdges.delete(randVertex);
       return randVertex;
     };
-    while (unvisited.size > 0) {
-      const vertex = extractRandomVertexFromUnvisitedSet();
-      const [vi, vj] = vertex.split(",").map((e) => Number(e));
-      animateCell("unvisited", vi, vj, 0);
-      visited.add(vi + "," + vj);
 
-      const unVisitedNeigbors = getUnVisitedNeigbors(vi, vj);
-      if (unVisitedNeigbors.length > 0) {
-        const randIndex = randInt(0, unVisitedNeigbors.length - 1);
-        const [randi, randj] = unVisitedNeigbors[randIndex];
-        const [midi, midj] = [(randi + vi) / 2, (randj + vj) / 2];
-        animateCell("unvisited", randi, randj, 0);
-        animateCell("unvisited", midi, midj, 0);
-        visited.add(randi + "," + randj);
-        visited.add(midi + "," + midj);
+    const addSurroundingWallsToEdge = async (edge) => {
+      const [v1, v2] = edge.split("-");
+      const [i1, j1] = v1.split(",").map((e) => Number(e));
+      const [i2, j2] = v2.split(",").map((e) => Number(e));
+
+      const vm = `${(i1 + i2) / 2},${(j1 + j2) / 2}`; // the vertex between v1 and v2
+
+      for (let i = i1 - 1; i <= i2 + 1; i++) {
+        for (let j = j1 - 1; j <= j2 + 1; j++) {
+          if (!isValidVertex(i, j)) {
+            continue;
+          }
+          const wall = `${i},${j}`;
+          if (![v1, v2, vm].includes(wall) && !visitedVertices.has(wall) && !gridOptions.isWall(i, j)) {
+            await animateCell("wall", i, j);
+          } else if (![v1, v2, vm].includes(wall) && visitedVertices.has(wall)) {
+            debugger;
+          }
+        }
       }
-      for (const [i, j] of getWallNeighbors(vi, vj)) {
-        if (!gridOptions.isWall(i, j)) await animateCell("wall", i, j);
+    };
+
+    const adj = {};
+
+    const areConnected = (v1, v2) => {
+      let curr = null;
+      let stack = [v1];
+      const visited = new Set();
+      while (stack.length) {
+        curr = stack.pop();
+        visited.add(curr);
+        if (curr === v2) return true;
+        for (let neighbor of adj[curr] || []) {
+          if (!visited.has(neighbor)) {
+            stack.push(neighbor);
+          }
+        }
       }
+    };
+
+    while (unvisitedEdges.size > 0) {
+      const edge = extractRandomEdgeFromUnvisitedEdgesSet();
+
+      await addSurroundingWallsToEdge(edge);
+
+      const [v1, v2] = edge.split("-");
+      const [i1, j1] = v1.split(",").map((e) => Number(e));
+      const [i2, j2] = v2.split(",").map((e) => Number(e));
+
+      const vm = `${(i1 + i2) / 2},${(j1 + j2) / 2}`; // the vertex between v1 and v2
+      const [im, jm] = vm.split(",").map((e) => Number(e));
+      if (!areConnected(v1, v2)) {
+        animateCell("unvisited", i1, j1, 0);
+        animateCell("unvisited", i2, j2, 0);
+        animateCell("unvisited", im, jm, 0);
+        visitedVertices.add(v1);
+        visitedVertices.add(v2);
+        visitedVertices.add(vm);
+      }
+
+      if (!adj[v1]) adj[v1] = [];
+      if (!adj[v2]) adj[v2] = [];
+      adj[v1].push(v2);
+      adj[v2].push(v1);
     }
-    console.log(visited);
   },
 };
