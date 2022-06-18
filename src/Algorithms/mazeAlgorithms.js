@@ -411,14 +411,14 @@ const mazeAlgorithms = {
 
       for (let i = i1 - 1; i <= i2 + 1; i++) {
         for (let j = j1 - 1; j <= j2 + 1; j++) {
-          if (!isValidVertex(i, j)) {
-            continue;
-          }
           const wall = `${i},${j}`;
-          if (![v1, v2, vm].includes(wall) && !visitedVertices.has(wall) && !gridOptions.isWall(i, j)) {
+          if (
+            isValidVertex(i, j) &&
+            ![v1, v2, vm].includes(wall) &&
+            !visitedVertices.has(wall) &&
+            !gridOptions.isWall(i, j)
+          ) {
             await animateCell("wall", i, j);
-          } else if (![v1, v2, vm].includes(wall) && visitedVertices.has(wall)) {
-            debugger;
           }
         }
       }
