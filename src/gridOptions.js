@@ -1,16 +1,12 @@
 const gridOptions = {
   disableUserInteraction: function () {
-    document
-      .querySelectorAll('#controlPanel button')
-      .forEach((elem) => (elem.disabled = true));
+    document.querySelectorAll("#controlPanel button").forEach((elem) => (elem.disabled = true));
   },
   enableUserInteraction: function () {
-    document
-      .querySelectorAll('#controlPanel button')
-      .forEach((elem) => (elem.disabled = false));
+    document.querySelectorAll("#controlPanel button").forEach((elem) => (elem.disabled = false));
   },
   animationLaunched: false,
-  instantAnimationOn: true,
+  animationOnDrop: true,
   isAnimated: true,
   source: [],
   destination: [],
@@ -33,34 +29,28 @@ const gridOptions = {
     return this.matrix[i][j].isDestination;
   },
   isUnvisited: function (i, j) {
-    return ['unvisited', 'unvisited-animated'].includes(
-      this.matrix[i][j].class
-    );
+    return ["unvisited", "unvisited-animated"].includes(this.matrix[i][j].class);
   },
 
   isWall: function (i, j) {
-    return ['wall', 'wall-animated'].includes(this.matrix[i][j].class);
+    return ["wall", "wall-animated"].includes(this.matrix[i][j].class);
   },
   isWeighted: function (i, j) {
     return this.matrix[i][j].weighted;
   },
   isVisited: function (i, j) {
-    return ['visited', 'visited-animated'].includes(this.matrix[i][j].class);
+    return ["visited", "visited-animated"].includes(this.matrix[i][j].class);
   },
   isPath: function (i, j) {
-    return ['path', 'path-animated'].includes(this.matrix[i][j].class);
+    return ["path", "path-animated"].includes(this.matrix[i][j].class);
   },
   clearPath: function () {
     for (let row of this.matrix) {
       for (let cell of row) {
-        if (
-          ['path', 'path-animated', 'visited', 'visited-animated'].includes(
-            cell.class
-          )
-        ) {
+        if (["path", "path-animated", "visited", "visited-animated"].includes(cell.class)) {
           cell.update({
             ...cell,
-            class: 'unvisited',
+            class: "unvisited",
           });
         }
       }
@@ -72,7 +62,7 @@ const gridOptions = {
       for (let cell of row) {
         cell.update({
           ...cell,
-          class: 'unvisited',
+          class: "unvisited",
           weighted: false,
         });
       }

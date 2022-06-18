@@ -40,7 +40,7 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
           isDestination: true,
         });
       }
-      if (gridOptions.anmationOnDrop) {
+      if (gridOptions.animationOnDrop) {
         await gridOptions.chozenAlgorithmCallback();
       }
     }
@@ -53,7 +53,7 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
   const handleMouseLeave = async () => {
     if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
       gridOptions.clearPath();
-      if (gridOptions.anmationOnDrop) {
+      if (gridOptions.animationOnDrop) {
         await gridOptions.chozenAlgorithmCallback();
       }
     }

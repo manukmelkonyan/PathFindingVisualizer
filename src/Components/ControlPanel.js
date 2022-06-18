@@ -96,7 +96,7 @@ const ControlPanel = () => {
           />
         </div>
         <div className="input-box">
-          <label htmlFor="anmationOnDrop">Animation on drop:</label>
+          <label htmlFor="anmationOnDrop">Animation on drop: </label>
           <input
             onChange={() => {
               gridOptions.animationOnDrop = !gridOptions.animationOnDrop;
