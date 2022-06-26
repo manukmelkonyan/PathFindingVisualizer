@@ -53,6 +53,23 @@ const Grid = ({ rowCount, columnCount, startNodePosition, endNodePosition }) => 
   const handleMouseLeave = async () => {
     if (gridOptions.isSourceDragged || gridOptions.isDestinationDragged) {
       gridOptions.clearPath();
+      if (gridOptions.isSourceDragged) {
+        const [i, j] = gridOptions.source;
+        gridOptions.matrix[i][j].update({
+          class: "unvisited",
+          weighted: false,
+          isSource: true,
+          isDestination: false,
+        });
+      } else if (gridOptions.isDestinationDragged) {
+        const [i, j] = gridOptions.destination;
+        gridOptions.matrix[i][j].update({
+          class: "unvisited",
+          weighted: false,
+          isSource: false,
+          isDestination: true,
+        });
+      }
       if (gridOptions.animationOnDrop) {
         await gridOptions.chozenAlgorithmCallback();
       }
