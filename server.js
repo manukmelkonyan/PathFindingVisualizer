@@ -9,8 +9,12 @@ app.use(compression());
 
 app.use("/static", express.static(__dirname + "/build/static"));
 
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "favicon.ico"));
 });
 
 app.listen(PORT, () => {
