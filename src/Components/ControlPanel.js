@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import SearchingAlgorithmButton from "./SearchingAlgorithmButton";
 import MazeAlgorithmButton from "./MazeAlgorithmButton";
 
@@ -14,10 +14,13 @@ import pathIcon from "../Assets/Icons/path.png";
 import "../Assets/Styles/controlPanel.css";
 
 const ControlPanel = () => {
+  const speedInput = useRef(null);
+  const isAnimatedCheckBox = useRef(null);
+  const anmationOnDrop = useRef(null);
   useEffect(() => {
-    document.getElementById("speedInput").value = 200;
-    document.getElementById("isAnimatedCheckBox").checked = true;
-    document.getElementById("anmationOnDrop").checked = true;
+    speedInput.current.value = 200;
+    isAnimatedCheckBox.current.checked = true;
+    anmationOnDrop.current.checked = true;
     gridOptions.delay = 0;
 
     const handleWDown = (e) => {
@@ -37,9 +40,9 @@ const ControlPanel = () => {
       window.removeEventListener(handleWDown);
       window.removeEventListener(handleWUp);
     };
-  });
+  }, []);
   return (
-    <div id="controlPanel">
+    <div className="controlPanel">
       <div className="panel">
         <label className="panel-title">Searching Algorithms</label>
         <SearchingAlgorithmButton algorithmName={"bfs"} />
@@ -58,7 +61,6 @@ const ControlPanel = () => {
       <div className="panel">
         <label className="panel-title">Grid options</label>
         <button
-          id="clearBoardBtn"
           onClick={async () => {
             gridOptions.clearBoard();
           }}
@@ -66,7 +68,6 @@ const ControlPanel = () => {
           Clear Board
         </button>
         <button
-          id="clearPathBtn"
           onClick={async () => {
             gridOptions.clearPath();
           }}
@@ -76,7 +77,7 @@ const ControlPanel = () => {
         <div className="input-box">
           <label htmlFor="speedInput">Speed:</label>
           <input
-            id="speedInput"
+            ref={speedInput}
             type="range"
             min="0"
             max="200"
@@ -91,7 +92,7 @@ const ControlPanel = () => {
             onChange={() => {
               gridOptions.isAnimated = !gridOptions.isAnimated;
             }}
-            id="isAnimatedCheckBox"
+            ref={isAnimatedCheckBox}
             type="checkbox"
           />
         </div>
@@ -101,7 +102,7 @@ const ControlPanel = () => {
             onChange={() => {
               gridOptions.animationOnDrop = !gridOptions.animationOnDrop;
             }}
-            id="anmationOnDrop"
+            ref={anmationOnDrop}
             type="checkbox"
           />
         </div>

@@ -6,7 +6,7 @@ import "../Assets/Styles/app.css";
 const App = () => {
   useEffect(() => {
     document.title = "Pathfinding & Maze Generating visualizer";
-  });
+  }, []);
   return (
     <div className="flex-box">
       <ControlPanel />

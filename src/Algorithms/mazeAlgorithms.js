@@ -347,7 +347,7 @@ const mazeAlgorithms = {
     while (unvisited.size > 0) {
       const vertex = extractRandomVertexFromUnvisitedSet();
       const [vi, vj] = vertex.split(",").map((e) => Number(e));
-      animateCell("unvisited", vi, vj, 0);
+      await animateCell("unvisited", vi, vj, 0);
       for (let [i, j] of getWallNeighbors(vi, vj)) {
         if (!gridOptions.isWall(i, j)) await animateCell("wall", i, j);
       }
@@ -356,8 +356,10 @@ const mazeAlgorithms = {
       if (visitedNeigbors.length > 0) {
         const randIndex = randInt(0, visitedNeigbors.length - 1);
         const randVertex = visitedNeigbors[randIndex];
-        animateCell("unvisited", randVertex[0], randVertex[1], 0);
-        animateCell("unvisited", (randVertex[0] + vi) / 2, (randVertex[1] + vj) / 2, 0);
+        await Promise.all([
+          animateCell("unvisited", randVertex[0], randVertex[1], 0),
+          animateCell("unvisited", (randVertex[0] + vi) / 2, (randVertex[1] + vj) / 2, 0),
+        ]);
       }
 
       const unvisitedNeigbors = getUnvisitedNeigbors(vi, vj);
@@ -454,18 +456,19 @@ const mazeAlgorithms = {
       const vm = `${(i1 + i2) / 2},${(j1 + j2) / 2}`; // the vertex between v1 and v2
       const [im, jm] = vm.split(",").map((e) => Number(e));
       if (!areConnected(v1, v2)) {
-        animateCell("unvisited", i1, j1, 0);
-        animateCell("unvisited", i2, j2, 0);
-        animateCell("unvisited", im, jm, 0);
+        await Promise.all([
+          animateCell("unvisited", i1, j1, 0),
+          animateCell("unvisited", i2, j2, 0),
+          animateCell("unvisited", im, jm, 0),
+        ]);
         visitedVertices.add(v1);
         visitedVertices.add(v2);
         visitedVertices.add(vm);
+        if (!adj[v1]) adj[v1] = [];
+        if (!adj[v2]) adj[v2] = [];
+        adj[v1].push(v2);
+        adj[v2].push(v1);
       }
-
-      if (!adj[v1]) adj[v1] = [];
-      if (!adj[v2]) adj[v2] = [];
-      adj[v1].push(v2);
-      adj[v2].push(v1);
     }
   },
 };

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap");
 
-#controlPanel {
+.controlPanel {
   display: flex;
   justify-content: center;
   margin: auto;
